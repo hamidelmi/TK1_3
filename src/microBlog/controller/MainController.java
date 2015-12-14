@@ -32,6 +32,7 @@ public class MainController {
 				ex.printStackTrace();
 			}
 		}
+		mainView.showMainView(username);
 	}
 
 	public static void main(final String[] args) {

@@ -1,0 +1,50 @@
+<project>
+	
+	<path id="classpath">
+		<fileset dir="/usr/share/activemq/lib/" includes="*.jar" />
+	</path>
+	
+	<pathconvert property="mf.classpath" pathsep=" ">
+		<path refid="classpath"/>
+		<mapper>
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<description>
+		TK1 - Programmieraufgabe 3
+	</description>
+
+	<target name="clean">
+		<delete dir="bin" />
+		<delete dir="dist" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" classpathref="classpath" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="dist" />
+		<mkdir dir="dist/lib" />
+		<jar destfile="dist/microBlog.jar" basedir="bin">
+			<zipgroupfileset dir="dist" includes="*.jar"/>
+			<zipgroupfileset dir="/usr/share/activemq/lib" includes="*.jar" excludes="activemq-protobuf.jar"/>
+			<manifest>
+				<attribute name="Main-Class" value="microBlog.controller.MainController" />
+				<attribute name="Class-Path" value="${mf.classpath}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<parallel>
+			<java jar="dist/microBlog.jar" fork="true" />
+			<java jar="dist/microBlog.jar" fork="true" />
+		</parallel>
+	</target>
+</project>

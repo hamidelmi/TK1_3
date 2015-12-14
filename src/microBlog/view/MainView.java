@@ -16,14 +16,18 @@ public class MainView extends JFrame {
 	private JList tagsList;
 	private JComboBox channelsComboBox;
 	private DefaultComboBoxModel tagsModel;
-	
+	private microBlog.controller.MainController controller;
 
-	public MainView() {
+	public MainView(microBlog.controller.MainController controller,
+			DefaultComboBoxModel tagsModel) {
 		this.setTitle("Micro blog!");
 		this.setBackground(Color.BLACK);
 		this.setSize(640, 480);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+
+		this.controller = controller;
+		this.tagsModel = tagsModel;
 	}
 
 	/**
@@ -47,8 +51,7 @@ public class MainView extends JFrame {
 		allMessages = new JTextArea();
 		topPanel.add(allMessages);
 
-		tagsModel = new DefaultComboBoxModel();
-		tagsList = new JList(tagsModel);
+		tagsList = new JList(this.tagsModel);
 		JScrollPane tagPane = new JScrollPane(tagsList);
 
 		topPanel.add(tagPane);
@@ -59,13 +62,12 @@ public class MainView extends JFrame {
 		channelText = new JTextField();
 		JButton sendButton = new JButton("Send");
 		JButton subscribeButton = new JButton("Subscribe");
-		channelsComboBox = new JComboBox(tagsModel);
+		channelsComboBox = new JComboBox(this.tagsModel);
 
 		JPanel sendPanel = new JPanel(new GridLayout(1, 2));
 		sendPanel.add(messageText);
 		sendPanel.add(channelsComboBox);
 
-		
 		bottomPanel.add(sendPanel);
 		bottomPanel.add(sendButton);
 		bottomPanel.add(channelText);
@@ -80,10 +82,21 @@ public class MainView extends JFrame {
 
 		this.setVisible(true);
 
+		sendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.sendMessage(messageText.getText());
+			}
+		});
 		subscribeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tagsModel.addElement(channelText.getText());
+				//
 			}
 		});
 	}
+
+	public void setMessage(String message) {
+		allMessages.append(message + System.lineSeparator());
+
+	}
+
 }

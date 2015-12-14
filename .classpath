@@ -2,5 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/activemq-console.jar"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/activemq-core.jar"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/activemq-jaas.jar"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/glassfish-javaee.jar"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/jcl-over-slf4j.jar"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/kahadb.jar"/>
+	<classpathentry kind="lib" path="/usr/share/activemq/lib/slf4j-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

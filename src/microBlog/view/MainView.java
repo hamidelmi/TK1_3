@@ -12,9 +12,8 @@ public class MainView extends JFrame {
 	private LoginView loginDialog;
 	private JPanel topPanel, bottomPanel;
 	private JTextArea allMessages;
-	private JTextField messageText, channelText;
-	private JList tagsList;
-	private JComboBox channelsComboBox;
+	private JTextField messageText, tagText, tagsText;
+	private JList tagsList;	
 	private DefaultComboBoxModel tagsModel;
 	private microBlog.controller.MainController controller;
 
@@ -59,18 +58,25 @@ public class MainView extends JFrame {
 		bottomPanel = new JPanel(new GridLayout(2, 2));
 		bottomPanel.setBackground(Color.YELLOW);
 		messageText = new JTextField();
-		channelText = new JTextField();
-		JButton sendButton = new JButton("Send");
-		JButton subscribeButton = new JButton("Subscribe");
-		channelsComboBox = new JComboBox(this.tagsModel);
+		tagText = new JTextField();
+		
+		JButton subscribeButton = new JButton("Subscribe/Create");
+		
 
 		JPanel sendPanel = new JPanel(new GridLayout(1, 2));
-		sendPanel.add(messageText);
-		sendPanel.add(channelsComboBox);
+		JPanel sendOptionPanel = new JPanel(new GridLayout(1, 1));
+		
+		tagsText = new JTextField();
+		
+		sendOptionPanel.add(tagsText);
+		
+		sendPanel.add(sendOptionPanel);
+		JButton sendButton = new JButton("Send");
+		sendPanel.add(sendButton);
 
+		bottomPanel.add(messageText);
 		bottomPanel.add(sendPanel);
-		bottomPanel.add(sendButton);
-		bottomPanel.add(channelText);
+		bottomPanel.add(tagText);
 		bottomPanel.add(subscribeButton);
 
 		JPanel p = new JPanel(new GridLayout(2, 1));
@@ -84,19 +90,23 @@ public class MainView extends JFrame {
 
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.sendMessage(messageText.getText());
+				controller.sendMessage(tagsText.getText(), messageText.getText());
 			}
 		});
 		subscribeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				controller.subsribe(tagText.getText());
 			}
 		});
+		
+		tagsText.setText("tag1;tag2;tag3");
+		messageText.setText("Messsage to be sent");
+		tagText.setText("new tag/user name");
 	}
+	
+	
 
 	public void setMessage(String message) {
 		allMessages.append(message + System.lineSeparator());
-
 	}
-
 }

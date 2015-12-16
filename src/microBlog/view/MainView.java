@@ -3,10 +3,11 @@ package microBlog.view;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.event.*;
 
 import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+
 
 public class MainView extends JFrame {
 	private LoginView loginDialog;
@@ -50,7 +51,17 @@ public class MainView extends JFrame {
 		allMessages = new JTextArea();
 		topPanel.add(allMessages);
 
-		tagsList = new JList(this.tagsModel);
+		tagsList = new JList(this.tagsModel);		
+		tagsList.addListSelectionListener(
+			new ListSelectionListener() {
+			      public void valueChanged(ListSelectionEvent listSelectionEvent) {
+			    	  if (!listSelectionEvent.getValueIsAdjusting()){
+			    		  int selections[] = tagsList.getSelectedIndices();
+			    		  if (selections.length > 0)
+			    			  setMessage(controller.getMessages(selections[0]), false);
+			    	  }
+			      }
+			});
 		JScrollPane tagPane = new JScrollPane(tagsList);
 
 		topPanel.add(tagPane);
@@ -104,9 +115,15 @@ public class MainView extends JFrame {
 		tagText.setText("new tag/user name");
 	}
 	
-	
 
 	public void setMessage(String message) {
-		allMessages.append(message + System.lineSeparator());
+		setMessage(message, true);
+	}
+	
+	private void setMessage(String message, boolean appened ) {
+		if (appened)
+			allMessages.append(message + System.lineSeparator());
+		else
+			allMessages.setText(message);
 	}
 }

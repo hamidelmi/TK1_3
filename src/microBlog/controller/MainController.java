@@ -1,5 +1,7 @@
 package microBlog.controller;
 
+import java.util.List;
+
 import microBlog.view.*;
 
 import javax.swing.DefaultComboBoxModel;
@@ -59,5 +61,14 @@ public class MainController implements IMessageHandler {
 
 	public void subsribe(String tag) {
 		blogManager.subscribe(tag);
+	}
+	
+	public String getMessages(int index) {
+		List<String> msgs = blogManager.getMessages(tagsModel.getElementAt(index).toString());
+		String result = "";
+		
+		for (String m: msgs)
+			result += m + System.lineSeparator();
+		return result;
 	}
 }
